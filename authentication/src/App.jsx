@@ -1,14 +1,14 @@
-import './App.css'
-import Signup from './components/Signup.jsx'
+import "./App.css";
+import Signup from "./components/Signup.jsx";
+import Signin from "./components/Signin.jsx";
 
 function App() {
-
   return (
-    <div>
-      <h2>Sign Up</h2>
+    <div className="app">
       <Signup />
+      <Signin />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

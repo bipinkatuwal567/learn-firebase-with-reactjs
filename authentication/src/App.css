@@ -33,6 +33,11 @@
   }
 }
 
+.app{
+  display: flex;
+  gap: 10rem;
+}
+
 .card {
   padding: 2em;
 }
