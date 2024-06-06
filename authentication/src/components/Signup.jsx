@@ -1,10 +1,17 @@
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { app } from "../firebase";
 import { FirebaseAuth } from "../context/FirebaseContext";
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +27,10 @@ const Signup = () => {
 
   const googleSignup = () => {
     signInWithPopup(FirebaseAuth, provider);
+  };
+
+  const githubSignup = () => {
+    signInWithPopup(FirebaseAuth, githubProvider);
   }
 
   return (
@@ -45,7 +56,14 @@ const Signup = () => {
           id="password"
         />
       </div>
-      <button onClick={googleSignup} style={{backgroundColor: "red"}}>Sign in with google</button>
+      <div style={{display: "flex", gap: "15px"}}>
+        <button onClick={githubSignup} style={{ backgroundColor: "green" }}>
+          Sign in with Github
+        </button>
+        <button onClick={googleSignup} style={{ backgroundColor: "red" }}>
+          Sign in with Google
+        </button>
+      </div>
       <button onClick={handleSignup}>Sign up</button>
     </div>
   );

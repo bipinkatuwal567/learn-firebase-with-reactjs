@@ -27,7 +27,7 @@ function App() {
       {user === null ? (
         <div className="app">
           <Signup />
-          <Signin />
+          {/* <Signin /> */}
           {/* <WriteAndSignup /> */}
         </div>
       ) : (
