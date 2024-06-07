@@ -1,43 +1,87 @@
+import React from "react";
 import "./App.css";
-import Signup from "./components/Signup.jsx";
-import Signin from "./components/Signin.jsx";
 import {
-  FirebaseAuth,
-  FirebaseProvider,
-  useFirebase,
-} from "./context/FirebaseContext.jsx";
-import WriteAndSignup from "./components/WriteAndSignup.jsx";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { app } from "./firebase";
+import { query } from "firebase/database";
 
-function App() {
-  const [user, setUser] = useState(null);
+const firestoreDB = getFirestore(app);
 
-  onAuthStateChanged(FirebaseAuth, (user) => {
-    if (user) setUser(user);
-    else {
-      console.log("You have been logged out");
-      setUser(null);
+const App = () => {
+  const putDataInFireStore = async () => {
+    try {
+      const docRef = await addDoc(collection(firestoreDB, "cities"), {
+        cityName: "Kathmandu",
+        postalCode: 56738,
+        lat: 123,
+        long: 456,
+      });
+      console.log(docRef);
+    } catch (e) {
+      console.log("Error adding document", e);
     }
-  });
-  useEffect(() => {}, []);
+  };
 
+  const putSubDataInFireStore = async () => {
+    try {
+      const docRef = await addDoc(
+        collection(firestoreDB, "cities/Ulu2rlgn8UCTiX2Oqsgu/places"),
+        {
+          placeName: "Falano",
+          placeDesc: "Awesome place",
+          placeCreated: Date.now(),
+        }
+      );
+      console.log(docRef);
+    } catch (e) {
+      console.log("Error adding sub document", e);
+    }
+  };
+
+  const getData = async () => {
+    const docRef = doc(firestoreDB, "users", "KaBtXG1o3pknTN94Om3I");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  };
+
+  const getDocumentsData = async () => {
+    const docRef = collection(firestoreDB, "users");
+    const q = query(docRef, where("isMale", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((data) => {
+      console.log(data.data());
+    });
+  };
+
+  const updateDocumentData = async () => {
+    const docRef = doc(firestoreDB, "cities", "Ulu2rlgn8UCTiX2Oqsgu");
+    await updateDoc(docRef, {
+        cityName: "KTM"
+    });
+  };
   return (
-    <FirebaseProvider>
-      {user === null ? (
-        <div className="app">
-          <Signup />
-          {/* <Signin /> */}
-          {/* <WriteAndSignup /> */}
-        </div>
-      ) : (
-        <div className="app" style={{flexDirection: "column"}}>
-          <h1>Hello {user.email}</h1>
-          <button onClick={() => signOut(FirebaseAuth)}>Logout</button>
-        </div>
-      )}
-    </FirebaseProvider>
+    <div className="app" style={{ flexDirection: "column", gap: "1rem" }}>
+      <h2>Firebase FireStore</h2>
+      <button onClick={putDataInFireStore}>ADD DATA</button>
+      <button onClick={putSubDataInFireStore}>ADD SUB DATA</button>
+      <button onClick={getData}>GET DATA</button>
+      <button onClick={getDocumentsData}>GET DATA USING QUERY</button>
+      <button onClick={updateDocumentData}>UPDATE DATA</button>
+    </div>
   );
-}
+};
 
 export default App;
