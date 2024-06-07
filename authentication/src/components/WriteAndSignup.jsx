@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useFirebase } from "../context/FirebaseContext";
 
 const WriteAndSignup = () => {
-  const { signupUserWithEmailAndPassword, putData } = useFirebase();
+  const { signupUserWithEmailAndPassword, putData, putDataNew } = useFirebase();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const triggerFunc = () => {
+    putDataNew("grandfather/father/child", { name: "Bipin1", age: 21 });
+  };
 
   return (
     <div className="signup-page">
@@ -38,6 +42,7 @@ const WriteAndSignup = () => {
       >
         Sign up
       </button>
+      <button onClick={triggerFunc}>Trigger</button>
     </div>
   );
 };

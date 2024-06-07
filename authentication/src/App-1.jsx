@@ -26,9 +26,9 @@ function App() {
     <FirebaseProvider>
       {user === null ? (
         <div className="app">
-          <Signup />
+          {/* <Signup /> */}
           {/* <Signin /> */}
-          {/* <WriteAndSignup /> */}
+          <WriteAndSignup />
         </div>
       ) : (
         <div className="app" style={{flexDirection: "column"}}>
