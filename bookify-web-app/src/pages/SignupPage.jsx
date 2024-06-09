@@ -15,7 +15,7 @@ const SignupPage = () => {
     setPassword("");
   };
   return (
-    <div className="container mt-5">
+    <div className="mt-5">
       <h2>Sign up</h2>
       <Form className="mt-3" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formGroupEmail">

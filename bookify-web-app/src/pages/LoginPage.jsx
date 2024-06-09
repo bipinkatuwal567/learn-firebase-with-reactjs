@@ -14,7 +14,7 @@ const LoginPage = () => {
     useFirebase();
 
   useEffect(() => {
-    if(isLoggedIn) navigate("/")
+    if (isLoggedIn) navigate("/");
   }, [isLoggedIn, navigate]);
 
   const handleSubmit = async (e) => {
@@ -27,7 +27,7 @@ const LoginPage = () => {
     await logInWithGoogle();
   };
   return (
-    <div className="container mt-5">
+    <div className="mt-5">
       <h2>Log in</h2>
       <Form className="mt-3" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formGroupEmail">
