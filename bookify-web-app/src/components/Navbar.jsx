@@ -1,16 +1,17 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 const NavbarPage = () => {
   return (
     <Navbar bg="primary" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="/">Bookify</Navbar.Brand>
+          <Navbar.Brand as={Link} to={"/"}>Bookify</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="/book/add">Add Book</Nav.Link>
+            <Nav.Link to="/book/add" as={Link}>Add Book</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

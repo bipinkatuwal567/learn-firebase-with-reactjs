@@ -5,6 +5,7 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import CreateBookListPage from "./pages/CreateBookList";
 import NavbarPage from "./components/Navbar";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <NavbarPage />
       <div className="container">
       <Routes>
-        <Route path="/" element={<h2>Home</h2>} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/book/add" element={<CreateBookListPage />} />

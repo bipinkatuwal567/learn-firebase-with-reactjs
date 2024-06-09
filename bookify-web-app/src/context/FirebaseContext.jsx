@@ -7,8 +7,8 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 
@@ -55,7 +55,6 @@ export const FirebaseProvider = (props) => {
     return signInWithPopup(auth, GoogleProvider);
   };
 
-
   const handleCreateNewListing = async (
     bookName,
     isbnNumber,
@@ -64,11 +63,11 @@ export const FirebaseProvider = (props) => {
   ) => {
     const bookImageRef = ref(
       storage,
-      `uploads/images/${Date.now()}-${bookImage}`
+      `uploads/images/${Date.now()}-${bookImage.name}`
     );
     const uploadResult = await uploadBytes(bookImageRef, bookImage);
 
-    await addDoc(collection(firestoreDb, "books"), {
+    return await addDoc(collection(firestoreDb, "books"), {
       bookName,
       isbnNumber,
       bookPrice,
@@ -80,6 +79,16 @@ export const FirebaseProvider = (props) => {
     });
   };
 
+  const fetchBookList = () => {
+    return getDocs(collection(firestoreDb, "books"));
+  };
+
+  const getImageURL = async (url) => {
+    return await getDownloadURL(
+      ref(storage, url)
+    );
+  };
+
   const isLoggedIn = !!user;
 
   return (
@@ -88,8 +97,10 @@ export const FirebaseProvider = (props) => {
         signUpUserWithEmailAndPassword,
         logInUserWithEmailAndPassword,
         logInWithGoogle,
-        isLoggedIn,
         handleCreateNewListing,
+        fetchBookList,
+        getImageURL,
+        isLoggedIn,
       }}
     >
       {props.children}

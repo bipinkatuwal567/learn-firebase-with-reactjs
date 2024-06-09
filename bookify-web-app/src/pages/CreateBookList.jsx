@@ -11,9 +11,9 @@ const CreateBookListPage = () => {
 
   const { handleCreateNewListing } = useFirebase();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleCreateNewListing(bookName, isbnNumber, bookPrice, bookImage);
+    await handleCreateNewListing(bookName, isbnNumber, bookPrice, bookImage);
   };
   return (
     <div className="container mt-5">
