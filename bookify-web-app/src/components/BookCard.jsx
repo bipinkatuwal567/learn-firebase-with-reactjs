@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useFirebase } from "../context/FirebaseContext";
+import { Link } from "react-router-dom";
 
 const BookCard = (props) => {
   const [imageURL, setImageURL] = useState(null);
@@ -28,7 +29,9 @@ const BookCard = (props) => {
         <Card.Title>{props.bookName}</Card.Title>
         <Card.Text>Sold by: {props.userDisplayName}</Card.Text>
         <Card.Text>Price: {props.bookPrice}</Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary" as={Link} to={props.link}>
+          {props.btnText}
+        </Button>
       </Card.Body>
     </Card>
   );

@@ -4,7 +4,7 @@ import { useFirebase } from "../context/FirebaseContext";
 import BookCard from "../components/BookCard";
 import { Stack } from "react-bootstrap";
 
-const HomePage = () => {
+const BookOrderPage = () => {
   const { fetchBookList } = useFirebase();
 
   const [bookList, setBookList] = useState([]);
@@ -20,14 +20,14 @@ const HomePage = () => {
 
   return (
     <div className="mt-5">
-      <h2>Book List</h2>
+      <h2>Order List</h2>
       <Stack direction="horizontal" gap={4}>
         {bookList.map((item) => (
           <BookCard
             key={item.id}
-            link={`/book/view/${item.id}`}
+            link={`/book/order/${item.id}`}
             id={item.id}
-            btnText={"View Details"}
+            btnText={"Check Order"}
             {...item.data()}
           />
         ))}
@@ -36,4 +36,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default BookOrderPage;

@@ -9,9 +9,8 @@ const NavbarPage = () => {
         <Container>
           <Navbar.Brand as={Link} to={"/"}>Bookify</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link to="/book/add" as={Link}>Add Book</Nav.Link>
+            <Nav.Link to="/book/orders" as={Link}>Orders</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

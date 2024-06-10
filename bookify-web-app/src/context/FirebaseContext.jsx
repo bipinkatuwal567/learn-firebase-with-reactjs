@@ -7,7 +7,14 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
@@ -84,10 +91,30 @@ export const FirebaseProvider = (props) => {
   };
 
   const getImageURL = async (url) => {
-    return await getDownloadURL(
-      ref(storage, url)
-    );
+    return await getDownloadURL(ref(storage, url));
   };
+
+  // Single book fetch
+  const getBook = (bookId) => {
+    return getDoc(doc(firestoreDb, "books", bookId));
+  };
+
+  const placeOrder = async (bookId, qty) => {
+    const collectionRef = collection(firestoreDb, "books", bookId, "order");
+    const result = await addDoc(collectionRef, {
+      userId: user.uid,
+      userDisplayName: user.displayName,
+      userEmail: user.email,
+      userPhotoURL: user.photoURL,
+      qty: Number(qty),
+    });
+    return result;
+  };
+
+  const orderList = async (bookId) => {
+    const docSnap = await getDocs(collection(firestoreDb, "books", bookId, "order"))
+    return docSnap;
+  }
 
   const isLoggedIn = !!user;
 
@@ -100,6 +127,9 @@ export const FirebaseProvider = (props) => {
         handleCreateNewListing,
         fetchBookList,
         getImageURL,
+        getBook,
+        placeOrder,
+        orderList,
         isLoggedIn,
       }}
     >
